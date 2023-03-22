@@ -1,0 +1,10 @@
+python-dotenv
+click
+Flask
+itsdangerous
+Jinja2
+MarkupSafe
+pip
+python-doten
+setuptools
+Werkzeug
