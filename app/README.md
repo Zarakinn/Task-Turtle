@@ -5,6 +5,8 @@
 - `python3 -m venv venv`
 - `source venv/bin/activate`
 - `pip install -r requirements.txt`
+- Initialiser la base de données avec la commande : ```flask initdb```.
+
 
 
 ## Lancement app en dev

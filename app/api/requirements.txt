@@ -8,3 +8,4 @@ pip
 python-doten
 setuptools
 Werkzeug
+Flask-Session
