@@ -379,3 +379,9 @@ dist
 # End of https://mrkandreev.name/snippets/gitignore-generator/#venv,react,Flask,Python,WebStorm,Solidity,VisualStudioCode
 
 
+
+app/package-lock.json
+
+app/api/flask_session/
+
+app/api/database/database.db

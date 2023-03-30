@@ -1,24 +1,36 @@
+import hashlib
 import time
-import os
-import sqlite3
-from flask import Flask, send_from_directory
-from flask_session import Session
+import json
+from flask import Flask, send_from_directory, json, request, jsonify, redirect
+from .app_creator import app
+from .database.db_tools import *
 from .database import db_tools
 
-app = Flask(__name__, static_folder='../build/static')
-app.config["SESSION_PERMANENT"] = False
-app.secret_key = 'app secret key'
-app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
 
-# load default conf and override config from an env var
-app.config.update(dict(
-    DATABASE=os.path.join(app.root_path, 'taskturtle.db'),
-    DEBUG=True,
-    SECRET_KEY='dev key',
-    USERNAME='admin',
-    PASSWORD='admin'
-))
+class Utilisateur:
+    def __init__(self, id, pseudo, isLoggedIn):
+        self.id = id
+        self.pseudo = pseudo
+        self.isLoggedIn = isLoggedIn
+
+    def to_json(self):
+        utilisateur_json = {
+            "id": self.id,
+            "pseudo": self.pseudo,
+            "isLoggedIn": self.isLoggedIn
+        }
+        return json.dumps(utilisateur_json)
+
+
+current_user = Utilisateur(0, "anonymous", False)
+
+
+###########################################################################
+
+
+@app.route('/api/utilisateur', methods=['GET'])
+def get_utilisateur():
+    return current_user.to_json()
 
 
 @app.route('/api/time')
@@ -31,6 +43,30 @@ def get_db():
     return {'db': db_tools.basic_query("select * from utilisateur", [])}
 
 
+# Route pour la page de connexion
+@app.route('/login', methods=['POST'])
+def login():
+    pseudo = request.form['pseudo']
+    password = request.form['password']
+    print(pseudo, password)
+
+    user = basic_query("SELECT * FROM utilisateur WHERE pseudo=?", (pseudo,), one_row=True)
+    if user is None:
+        # return jsonify({'success': False, 'message': 'Nom d\'utilisateur incorrect'})
+        return redirect(location="/login", code=302, Response=None)
+
+    # Vérifier si le mot de passe est correct
+    hashed_password = hashlib.sha256(password.encode()).hexdigest()
+    if hashed_password != user["password"]:
+        return jsonify({'success': False, 'message': 'Mot de passe incorrect'})
+
+    # Si les identifiants sont corrects, retourner une réponse de succès
+    current_user.id = user["idUtilisateur"]
+    current_user.pseudo = user["pseudo"]
+    current_user.isLoggedIn = True
+    return jsonify({'success': True, 'message': 'Connexion réussie'})
+
+
 @app.cli.command('initdb')
 def initdb_command():
     # Initialisation de la base de données
@@ -38,7 +74,7 @@ def initdb_command():
     print('Initialized the database.')
 
 
-###################### FRONT ##########################"
+###################### FRONT ########################################################
 @app.route("/")
 def base():
     # It returns the index.html file from the client/public directory

@@ -54,7 +54,7 @@ def create_db():
         sql = file.read()
         cursor.executescript(sql)
     basic_insert("insert into utilisateur (idUtilisateur, pseudo, password) values (?, ?, ?)",
-                 (0, "admin", "admin"))
+                 (0, "admin", "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"))
 
 
 def get_db(disable_dict_factory=False):
