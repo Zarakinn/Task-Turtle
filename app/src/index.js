@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import NoPage from './pages/NoPage';
 import Layout from "./pages/Layout";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Browse from './pages/Browse';
 
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Home />} />
                     <Route path="login" element={<Login />} />
+                    <Route path="explorer" element={<Browse/>}/>
                     <Route path="*" element={<NoPage />} />
                 </Route>
             </Routes>

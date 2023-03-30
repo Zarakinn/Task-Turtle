@@ -5,7 +5,7 @@ itsdangerous
 Jinja2
 MarkupSafe
 pip
-python-doten
 setuptools
 Werkzeug
 Flask-Session
+python-dotenv
