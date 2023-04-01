@@ -4,7 +4,7 @@ const Badge = ({ badge }) => {
 
     return (
         <div>
-            <div className={'badge badg-${badge.color} badge-outline'}>{badge.text}</div>
+            <div className={'badge badge-outline'}>{badge}</div>
         </div>
     )
 }

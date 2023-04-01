@@ -1,19 +1,46 @@
-import React from 'react'
+import { useEffect, useState } from "react";
 import Card from './Card'
 
 const Browse = () => {
 
+    //const [jobs, setJobs] = useState([{ id: 1, name: "Patrick", job: "Tondre", badges: [{ text: "jardinerie", color: "#ffffff" }] },
+    //{ id: 2, name: "Joséphine", job: "Ange gardien", badges: [{ text: "divin", color: "yellow" }, { text: "apéro", color: "red" }] }]);
 
-    const datas = [{ id: 1, name: "Patrick", job: "Tondre", badges: [{ text: "jardinerie", color: "#ffffff" }] },
-                    { id: 2, name: "Joséphine", job: "Ange gardien", badges: [{ text: "divin", color: "yellow" }, { text: "apéro", color: "red" }] }]
+    const [jobs, setJobs] = useState([]);
+
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        if (jobs != null) {
+            loadJobs();
+        }
+    }, []);
+
+    const loadJobs = () => {
+        setIsLoading(true);
+        fetch('/api/jobs')
+            .then(res => res.json())
+            .then(data => {
+                console.log(data.jobs);
+                setJobs(data.jobs);
+                setIsLoading(false);
+            });
+
+    }
 
     return (
         <div style={{ margin: 10, padding: 10 }}>
-            <div class="grid grid-cols-4 gap-4">
-                {datas.map(data => (
-                    <Card id={data.id} name={data.name} job={data.job} badges={data.badges} />
-                ))}
-            </div>
+            {isLoading ?
+                <div>
+                    Loading ....
+                </div> :
+
+                <div className="grid grid-cols-4 gap-4">
+                    {jobs.map((job, index) => (
+                        <Card key={index} props={job} />
+                    ))}
+                </div>
+            }
         </div>
 
     )

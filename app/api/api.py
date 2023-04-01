@@ -42,6 +42,10 @@ def get_current_time():
 def get_db():
     return {'db': db_tools.basic_query("select * from utilisateur", [])}
 
+@app.route('/api/jobs')
+def get_jobs():
+    return {'jobs':db_tools.basic_query("select * from job",[])}
+
 
 # Route pour la page de connexion
 @app.route('/login', methods=['POST'])
