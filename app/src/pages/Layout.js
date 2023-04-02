@@ -1,8 +1,27 @@
 import {Outlet, Link} from "react-router-dom";
+import {useEffect, useRef} from "react";
 
 let year = new Date().getFullYear();
 
-const Layout = () => {
+const Layout = (props) => {
+    const logoutModal = useRef(null);
+
+    const handleLogout = (event) => {
+        event.preventDefault();
+
+        fetch('/api/logout', {
+            method: 'POST',
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    props.updateUser();
+                    logoutModal.current.click();
+                }
+            });
+    };
+
+
     return (
         <>
             <div className="navbar bg-primary ">
@@ -19,7 +38,11 @@ const Layout = () => {
                         Turtle</a>
                 </div>
                 <div className="navbar-end">
-                    <Link to="/login" className="btn">Se connecter</Link>
+                    {props.user.isLoggedIn ? (
+                        <div className="btn" onClick={handleLogout}>Deconnexion de {props.user.pseudo}</div>
+                    ) : (
+                        <Link to="/login" className="btn">Connexion</Link>
+                    )}
                 </div>
             </div>
 
@@ -31,14 +54,14 @@ const Layout = () => {
                 </div>
             </footer>
 
-            <input type="checkbox" id="ok_modal" className="modal-toggle"/>
+
+            <input type="checkbox" id="logout_modal" ref={logoutModal} className="modal-toggle"/>
             <div className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box">
-                    <h3 className="font-bold text-lg">Congratulations random Internet user!</h3>
-                    <p className="py-4">You've been selected for a chance to get one year of subscription to use
-                        Wikipedia for free!</p>
+                    <h3 className="font-bold text-lg">Déconnexion</h3>
+                    <p className="py-4">Vous êtes maintenant déconnecté</p>
                     <div className="modal-action">
-                        <label htmlFor="my-modal-6" className="btn">Yay!</label>
+                        <label htmlFor="logout_modal" className="btn">Continuer</label>
                     </div>
                 </div>
             </div>

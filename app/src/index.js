@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Login from './pages/Login';
+import Login from './pages/login/Login';
 import Home from './pages/Home';
 import NoPage from './pages/NoPage';
 import Layout from "./pages/Layout";
@@ -10,21 +10,29 @@ import Browse from './pages/Browse';
 
 
 export default function App() {
-    const [user, setuser] = useState({pseudo: "", id: "", isLogged: false});
+    const [user, setuser] = useState({pseudo: "pseudo", id: "", isLogged: false});
+    const [updateUser, setupdateUser] = useState(0);
 
     useEffect(() => {
         fetch('/api/utilisateur').then(res => res.json()).then(data => {
             setuser(data);
         });
-    }, []);
+    }, [updateUser]);
 
+    function doUpdateUser() {
+        setupdateUser(updateUser+1);
+    }
 
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Layout user={user}/>}>
+                <Route path="/" element={<Layout
+                    user={user}
+                    updateUser={doUpdateUser}/>}>
+
                     <Route index element={<Home/>} />
-                    <Route path="login" element={<Login />} />
+                    <Route path="login" element={<Login
+                        updateUser={doUpdateUser}/>} />
                     <Route path="explorer" element={<Browse/>}/>
                     <Route path="*" element={<NoPage />} />
                 </Route>
