@@ -1,4 +1,5 @@
 import hashlib
+import sqlite3
 import time
 import json
 from flask import Flask, send_from_directory, json, request, jsonify, redirect, session
@@ -49,9 +50,10 @@ def get_current_time():
 def get_db():
     return {'db': db_tools.basic_query("select * from utilisateur", [])}
 
+
 @app.route('/api/jobs')
 def get_jobs():
-    return {'jobs':db_tools.basic_query("select * from job",[])}
+    return {'jobs': db_tools.basic_query("select * from job", [])}
 
 
 # Route pour la page de connexion
@@ -60,7 +62,6 @@ def login():
     data = request.get_json()
     pseudo = data.get('pseudo')
     password = data.get('password')
-    print(pseudo, password)
 
     user = basic_query("SELECT * FROM utilisateur WHERE pseudo=?", (pseudo,), one_row=True)
     if user is None:
@@ -76,6 +77,27 @@ def login():
     session['user'] = Utilisateur(user["idUtilisateur"], user["pseudo"], True)
     session.permanent = True
     return jsonify({'success': True, 'message': 'Connexion réussie'})
+
+
+@app.route('/api/signup', methods=['POST'])
+def signup():
+    data = request.get_json()
+    pseudo = data.get('pseudo')
+    password = data.get('password')
+    print(pseudo, password)
+    if basic_query("SELECT * FROM utilisateur WHERE pseudo=?", (pseudo,), one_row=True) is not None:
+        return jsonify({'success': False, 'message': 'Pseudo existant'})
+    try:
+        basic_insert("INSERT INTO utilisateur (pseudo, password, idUtilisateur) VALUES (?, ?, ?)",
+                     (pseudo, hashlib.sha256(password.encode()).hexdigest(), generate_max_id("utilisateur")))
+        session.permanent = True
+
+        user = basic_query("SELECT * FROM utilisateur WHERE pseudo=?", (pseudo,), one_row=True)
+        session['user'] = Utilisateur(user["idUtilisateur"], user["pseudo"], True)
+
+        return jsonify({'success': True, 'message': 'Inscription réussie'})
+    except sqlite3.Error:
+        return jsonify({'success': False, 'message': 'Erreur lors de l\'inscription'})
 
 
 @app.route('/api/logout', methods=['POST'])

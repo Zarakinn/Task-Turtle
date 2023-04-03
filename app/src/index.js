@@ -7,6 +7,7 @@ import NoPage from './pages/NoPage';
 import Layout from "./pages/Layout";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Browse from './pages/Browse';
+import Signup from "./pages/login/Signup";
 
 
 export default function App() {
@@ -31,8 +32,8 @@ export default function App() {
                     updateUser={doUpdateUser}/>}>
 
                     <Route index element={<Home/>} />
-                    <Route path="login" element={<Login
-                        updateUser={doUpdateUser}/>} />
+                    <Route path="login" element={<Login updateUser={doUpdateUser}/>} />
+                    <Route path="signup" element={<Signup updateUser={doUpdateUser}/>} />
                     <Route path="explorer" element={<Browse/>}/>
                     <Route path="*" element={<NoPage />} />
                 </Route>

@@ -55,7 +55,8 @@ def create_db():
         cursor.executescript(sql)
     basic_insert("insert into utilisateur (idUtilisateur, pseudo, password) values (?, ?, ?)",
                  (0, "admin", "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"))
-
+    basic_insert("insert into job (idJob,title,textDescription,tags,idUtilisateurPoster) values (?,?,?,?,?)",
+                (0,"Tondre la pelouse","J'ai besoin qu'on vienne entretenir ma pelouse car elle est très très moche","jardinage,extérieur",0))
 
 def get_db(disable_dict_factory=False):
     db = sqlite3.connect(DB_FILE)
@@ -77,5 +78,6 @@ def generate_max_id(table: string) -> int:
         if table == "utilisateur":
             new_id = basic_query("SELECT MAX(idUtilisateur) FROM utilisateur", [], disable_dict_factory=True,
                                  one_row=True)
+            return new_id[0] + 1
     except sqlite3.Error as error:
         return -1
