@@ -11,6 +11,8 @@ CREATE TABLE job (
     title VARCHAR(50),
     textDescription VARCHAR(150),
     tags VARCHAR(50), -- Voué à changer
+    price INTEGER,
+    locality VARCHAR(50),
     idUtilisateurPoster INTEGER,
     CONSTRAINT idJob_PK PRIMARY KEY (idJob),
     FOREIGN KEY (idUtilisateurPoster) REFERENCES "utilisateur"("idUtilisateur")

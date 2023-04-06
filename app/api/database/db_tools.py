@@ -14,32 +14,22 @@ DICT_FILE = f"database{os.sep}dictionnaire_data.sql"
 # Requêtes basiques sur la base de données
 def basic_query(sql, param_sql, disable_dict_factory=False, one_row=False, commit=False):
     global cursor
-    try:
-        connexion = get_db(disable_dict_factory)
-    except sqlite3.Error as error:
-        return
-    try:
-        cursor = connexion.cursor()
-        cursor.execute(sql, param_sql)
-        if one_row:
-            query = cursor.fetchone()
-        else:
-            query = cursor.fetchall()
-        if commit:
-            connexion.commit()
-    except sqlite3.Error as error:
-        return
-    finally:
-        cursor.close()
-        connexion.close()
+    connexion = get_db(disable_dict_factory)
+    cursor = connexion.cursor()
+    cursor.execute(sql, param_sql)
+    if one_row:
+        query = cursor.fetchone()
+    else:
+        query = cursor.fetchall()
+    if commit:
+        connexion.commit()
+    cursor.close()
+    connexion.close()
     return query
 
 
 def basic_insert(sql, param_sql):
-    try:
-        basic_query(sql, param_sql, commit=True)
-    except sqlite3.Error as error:
-        return
+    basic_query(sql, param_sql, commit=True)
 
 
 def create_db():
@@ -55,8 +45,12 @@ def create_db():
         cursor.executescript(sql)
     basic_insert("insert into utilisateur (idUtilisateur, pseudo, password) values (?, ?, ?)",
                  (0, "admin", "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"))
-    basic_insert("insert into job (idJob,title,textDescription,tags,idUtilisateurPoster) values (?,?,?,?,?)",
-                (0,"Tondre la pelouse","J'ai besoin qu'on vienne entretenir ma pelouse car elle est très très moche","jardinage,extérieur",0))
+    basic_insert(
+        "insert into job (idJob, title, textDescription, tags, idUtilisateurPoster, price, locality) "
+        "values (?,?,?,?,?, ?, ?)",
+        (0, "Tondre la pelouse", "J'ai besoin qu'on vienne entretenir ma pelouse car elle est  très moche",
+         "jardinage, extérieur", 0, 50, 'Nancy'))
+
 
 def get_db(disable_dict_factory=False):
     db = sqlite3.connect(DB_FILE)
@@ -74,10 +68,11 @@ def dict_factory(cursor, row):
 
 
 def generate_max_id(table: string) -> int:
-    try:
-        if table == "utilisateur":
-            new_id = basic_query("SELECT MAX(idUtilisateur) FROM utilisateur", [], disable_dict_factory=True,
-                                 one_row=True)
-            return new_id[0] + 1
-    except sqlite3.Error as error:
-        return -1
+    if table == "utilisateur":
+        new_id = basic_query("SELECT MAX(idUtilisateur) FROM utilisateur", [], disable_dict_factory=True,
+                             one_row=True)
+        return new_id[0] + 1
+    elif table == "job":
+        new_id = basic_query("SELECT MAX(idJob) FROM job", [], disable_dict_factory=True,
+                             one_row=True)
+        return new_id[0] + 1

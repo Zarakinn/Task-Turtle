@@ -72,7 +72,7 @@ function Login(props) {
                                     <label htmlFor="remember" className="text-gray-500">Rester connecté</label>
                                 </div>
                             </div>
-                            <a href="/" className="text-sm font-medium text-primary-600 hover:underline">Mot de passe
+                            <a href="/tant-pis-pour-toi" className="text-sm font-medium text-primary-600 hover:underline">Mot de passe
                                 oublié</a>
                         </div>
                         <div className="block mb-2 text-sm font-medium text-red-600">{error}</div>

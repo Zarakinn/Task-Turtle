@@ -106,6 +106,22 @@ def logout():
     return jsonify({'success': True, 'message': 'Déconnexion réussie'})
 
 
+@app.route('/api/create-job', methods=['POST'])
+def createJob():
+    data = request.get_json()
+    if session.get('user') is None:
+        return jsonify({'success': False, 'message': 'Vous devez être connecté pour créer un job'})
+
+    try:
+        basic_insert("INSERT INTO job (idJob, title, textDescription, tags, idUtilisateurPoster, price, locality) "
+                     "VALUES (?, ?, ?, ?, ?, ?, ?)",
+                     (generate_max_id("job"), data.get('titre'), data.get('description'), data.get('categorie'),
+                      session['user'].id, data.get('prix'), data.get('commune')))
+        return jsonify({'success': True, 'message': 'Job créé, vous pouvez le consulter sur votre profil'})
+    except sqlite3.Error:
+        return jsonify({'success': False, 'message': 'Erreur lors de la création du job'})
+
+
 @app.cli.command('initdb')
 def initdb_command():
     # Initialisation de la base de données

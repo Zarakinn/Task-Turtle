@@ -8,6 +8,7 @@ import Layout from "./pages/Layout";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Browse from './pages/Browse';
 import Signup from "./pages/login/Signup";
+import CreateJob from "./pages/job/CreateJob";
 
 
 export default function App() {
@@ -27,15 +28,13 @@ export default function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Layout
-                    user={user}
-                    updateUser={doUpdateUser}/>}>
-
+                <Route path="/" element={<Layout user={user} updateUser={doUpdateUser}/>}>
                     <Route index element={<Home/>} />
                     <Route path="login" element={<Login updateUser={doUpdateUser}/>} />
                     <Route path="signup" element={<Signup updateUser={doUpdateUser}/>} />
                     <Route path="explorer" element={<Browse/>}/>
                     <Route path="*" element={<NoPage />} />
+                    <Route path="job/create-job" element={<CreateJob user={user} />} />
                 </Route>
             </Routes>
         </BrowserRouter>
