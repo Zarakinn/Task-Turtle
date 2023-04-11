@@ -9,6 +9,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Browse from './pages/Browse';
 import Signup from "./pages/login/Signup";
 import CreateJob from "./pages/job/CreateJob";
+import JobDetail from './pages/job/JobDetail';
 
 
 export default function App() {
@@ -35,6 +36,7 @@ export default function App() {
                     <Route path="explorer" element={<Browse/>}/>
                     <Route path="*" element={<NoPage />} />
                     <Route path="job/create-job" element={<CreateJob user={user} />} />
+                    <Route path="job/:id" element={<JobDetail user={user}/> }/>
                 </Route>
             </Routes>
         </BrowserRouter>

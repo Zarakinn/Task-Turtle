@@ -1,5 +1,6 @@
 import React,{useState, useEffect} from 'react'
 import Badge from './Badge'
+import {Link} from "react-router-dom";
 
 function Card (props) {
     
@@ -19,13 +20,13 @@ function Card (props) {
 
                 <div className='container-card-user'>
                     <div className='container-card-user-child'>Poster par :</div> 
-                    {poster != null? 
+                    {poster != null ? 
                     <div className='container-card-user-child'>{poster.pseudo}</div>
                     :<div className='container-card-user-child'><div className='dot-spin'></div></div> }
                 </div>
 
                 <div className="card-actions justify-end">
-                    <button className="btn btn-primary">Détails</button>
+                    <Link className="btn btn-primary" to={`/job/${props.props.idJob}`}>Détails</Link>
                 </div>
             </div>
         </div>

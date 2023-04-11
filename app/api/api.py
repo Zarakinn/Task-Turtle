@@ -58,6 +58,9 @@ def get_db():
 def get_jobs():
     return {'jobs': db_tools.basic_query("select * from job", [])}
 
+@app.route('/api/job/<int:id>')
+def get_job_by_id(id):
+    return jsonify( db_tools.basic_query("SELECT * FROM job WHERE idJob=?",(id,), one_row=True))
 
 # Route pour la page de connexion
 @app.route('/api/login', methods=['POST'])
