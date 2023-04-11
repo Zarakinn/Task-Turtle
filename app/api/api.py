@@ -40,6 +40,9 @@ def get_utilisateur():
     return jsonify(
         {"id": session['user'].id, "pseudo": session['user'].pseudo, "isLoggedIn": session['user'].isLoggedIn})
 
+@app.route('/api/utilisateur/<int:id>',methods=['GET'])
+def get_utilisateur_by_id(id):
+    return jsonify( db_tools.basic_query("SELECT * FROM utilisateur WHERE idUtilisateur=?",(id,),one_row=True))
 
 @app.route('/api/time')
 def get_current_time():

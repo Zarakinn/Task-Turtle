@@ -3,9 +3,6 @@ import Card from './Card'
 
 const Browse = () => {
 
-    //const [jobs, setJobs] = useState([{ id: 1, name: "Patrick", job: "Tondre", badges: [{ text: "jardinerie", color: "#ffffff" }] },
-    //{ id: 2, name: "Joséphine", job: "Ange gardien", badges: [{ text: "divin", color: "yellow" }, { text: "apéro", color: "red" }] }]);
-
     const [jobs, setJobs] = useState([]);
 
     const [isLoading, setIsLoading] = useState(true);
