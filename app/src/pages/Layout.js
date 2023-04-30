@@ -1,5 +1,5 @@
 import {Outlet, Link} from "react-router-dom";
-import {useEffect, useRef} from "react";
+import {useRef} from "react";
 
 let year = new Date().getFullYear();
 

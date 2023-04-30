@@ -13,7 +13,7 @@ DICT_FILE = f"database{os.sep}dictionnaire_data.sql"
 
 # Requêtes basiques sur la base de données
 def basic_query(sql, param_sql, disable_dict_factory=False, one_row=False, commit=False):
-    global cursor
+    #global cursor, sinon si il y a des requêtes simultanées, il y a des problèmes
     connexion = get_db(disable_dict_factory)
     cursor = connexion.cursor()
     cursor.execute(sql, param_sql)
