@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import Card from './Card'
 
 const Browse = () => {
-
     const [jobs, setJobs] = useState([]);
-
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -22,7 +20,6 @@ const Browse = () => {
                 setJobs(data.jobs);
                 setIsLoading(false);
             });
-
     }
 
     return (
@@ -30,9 +27,9 @@ const Browse = () => {
             {isLoading ?
                 <div>
                     Loading ....
-                </div> :
-
-                <div className="grid grid-cols-4 gap-4">
+                </div>
+                :
+                <div className="flex flex-wrap justify-center mt-10">
                     {jobs.map((job, index) => (
                         <Card key={index} props={job} />
                     ))}

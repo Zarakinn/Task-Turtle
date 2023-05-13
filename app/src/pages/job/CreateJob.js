@@ -1,8 +1,8 @@
-import {useRef, useState} from "react";
-import {Link} from "react-router-dom";
+import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 function CreateJob(props) {
-    const [formData, setFormData] = useState({categorie: 'DEFAULT'});
+    const [formData, setFormData] = useState({ categorie: 'DEFAULT' });
     const [catError, setCatError] = useState('');
     const [submitError, setSubmitError] = useState('');
     const successModalRef = useRef(null);
@@ -19,7 +19,7 @@ function CreateJob(props) {
         event.preventDefault();
         console.log(formData);
 
-        if(formData.categorie === 'DEFAULT'){
+        if (formData.categorie === 'DEFAULT') {
             setCatError('Veuillez choisir une catégorie');
             return;
         }
@@ -53,26 +53,26 @@ function CreateJob(props) {
                     <div className="sm:col-span-2">
                         <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 ">Titre de la tâche</label>
                         <input type="text" placeholder="Tondre ma pelouse" id="titre" name="titre" onChange={handleChange}
-                               className="rounded-lg bg-gray-50 input input-bordered input-primary w-full" required/>
+                            className="rounded-lg bg-gray-50 input input-bordered input-primary w-full" required />
                     </div>
                     <div className="w-full">
                         <label htmlFor="brand" className="block mb-2 text-sm font-medium text-gray-900">Commune</label>
                         <input type="text" placeholder="Nancy" id="commune" name="commune" onChange={handleChange} required
-                               className="rounded-lg input-sm bg-gray-50 input input-bordered input-primary w-full p-2.5 h-10"/>
+                            className="rounded-lg input-sm bg-gray-50 input input-bordered input-primary w-full p-2.5 h-10" />
 
                     </div>
                     <div className="w-full">
                         <label htmlFor="price"
-                               className="block mb-2 text-sm font-medium text-gray-900">Prix</label>
+                            className="block mb-2 text-sm font-medium text-gray-900">Prix</label>
                         <input type="number" name="prix" id="prix"
-                               className="bg-gray-50 border border-primary text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                               placeholder="50" onChange={handleChange} required/>
+                            className="bg-gray-50 border border-primary text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            placeholder="50" onChange={handleChange} required />
                     </div>
                     <div>
                         <label htmlFor="category"
-                               className="block mb-2 text-sm font-medium text-gray-900">Catégorie</label>
-                        <select id="categorie" name="categorie"  className="bg-gray-50 select select-primary w-full rounded-lg select-sm max-w-xs text-gray-900 h-10"
-                                onChange={handleChange} defaultValue={'DEFAULT'} required>
+                            className="block mb-2 text-sm font-medium text-gray-900">Catégorie</label>
+                        <select id="categorie" name="categorie" className="bg-gray-50 select select-primary w-full rounded-lg select-sm max-w-xs text-gray-900 h-10"
+                            onChange={handleChange} defaultValue={'DEFAULT'} required>
                             <option value="DEFAULT">Choisir une catégorie</option>
                             <option value="BR">Bricolage</option>
                             <option value="JA">Jardinage</option>
@@ -84,19 +84,19 @@ function CreateJob(props) {
                     </div>
                     <div className="sm:col-span-2">
                         <label htmlFor="description"
-                               className="block mb-2 text-sm font-medium text-gray-900">Description</label>
+                            className="block mb-2 text-sm font-medium text-gray-900">Description</label>
                         <textarea rows="8" className=" rounded-lg bg-gray-50 textarea textarea-primary w-full mt-2.5 block" required
-                                  placeholder="Description détaillée de la tâche" id="description" name="description" onChange={handleChange}/>
+                            placeholder="Description détaillée de la tâche" id="description" name="description" onChange={handleChange} />
                     </div>
                 </div>
                 <button type="submit" className="mt-5 btn btn-primary">Ajouter la tâche</button>
             </form>
 
-            <input type="checkbox" id="success-modal" ref={successModalRef} className="modal-toggle"/>
+            <input type="checkbox" id="success-modal" ref={successModalRef} className="modal-toggle" />
             <div className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box">
-                    <h3 className="font-bold text-lg">Réussite de la connexion</h3>
-                    <p className="py-4">Vous pouvez maintenant profiter des fonctionnalités de l'application</p>
+                    <h3 className="font-bold text-lg">Réussite de la création de la tâche</h3>
+                    <p className="py-4">Les autres membres pourront maintenant voir votre tâche</p>
                     <div className="modal-action">
                         <Link to="/" className="btn">Continuer</Link>
                     </div>
@@ -104,7 +104,7 @@ function CreateJob(props) {
             </div>
 
 
-            <input type="checkbox" id="error-modal" ref={errorModalRef} className="modal-toggle"/>
+            <input type="checkbox" id="error-modal" ref={errorModalRef} className="modal-toggle" />
             <div className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box">
                     <h3 className="font-bold text-lg">Erreur</h3>

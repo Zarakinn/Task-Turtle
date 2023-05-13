@@ -40,28 +40,6 @@ function Home() {
                 </div>
 
             </div>
-
-
-            {/*
-                <div>
-                    <div>
-                        <div className="flex flex-row md:mb-32 mb-4 md:mt-60 mt-32">
-                            <div className="grid flex items-center justify-center w-full h-full">
-                                <hr className="w-28 h-1 my-8 bg-secondary-content border-0 mr-48 rounded "/>
-                                <div className="absolute px-4 -translate-x-1/2 -translate-y-8 bg-transparent left-1/2">
-                                    <img src={logo} className="h-[15]"/>
-                                </div>
-                                <hr className="w-28 h-1 my-8 bg-secondary-content border-0 rounded"/>
-                            </div>
-
-                            <p className="grid flex text-center text-primary font-extrabold text-6xl md:text-8xl font-inter relative z-40">
-                                <div className="divider lg:divider-horizontal">TASK</div>
-                                <span className="text-secondary-content hidden">TURTLE</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>*/}
-
         </div>
     )
         ;
