@@ -71,7 +71,12 @@ def get_jobs():
 @app.route("/api/myjobs")
 def get_myjobs():
     idUser = session["user"].id
-    return {"jobs": db_tools.basic_query("select * from job WHERE idUtilisateurAccepter = ? OR idUtilisateurPoster = ?", (idUser, idUser))}
+    return {"jobs": db_tools.basic_query("select * from job WHERE idUtilisateurPoster = ?", (idUser,))}
+
+@app.route("/api/jobsaccepted")
+def get_jobaccepted():
+    idUser = session["user"].id
+    return {"jobs": db_tools.basic_query("select * from job WHERE idUtilisateurAccepter = ?", (idUser,))}
 
 
 @app.route("/api/job/<int:id>")
