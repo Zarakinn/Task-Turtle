@@ -70,14 +70,17 @@ def get_jobs():
 
 @app.route("/api/myjobs")
 def get_myjobs():
-    idUser = session["user"].id
-    return {"jobs": db_tools.basic_query("select * from job WHERE idUtilisateurPoster = ?", (idUser,))}
+    if not session.get("user") is None:
+        idUser = session["user"].id
+        return {"jobs": db_tools.basic_query("select * from job WHERE idUtilisateurPoster = ?", (idUser,))}
+    return {"jobs":[]}
 
 @app.route("/api/jobsaccepted")
 def get_jobaccepted():
-    idUser = session["user"].id
-    return {"jobs": db_tools.basic_query("select * from job WHERE idUtilisateurAccepter = ?", (idUser,))}
-
+    if not session.get("user") is None:
+        idUser = session["user"].id
+        return {"jobs": db_tools.basic_query("select * from job WHERE idUtilisateurAccepter = ?", (idUser,))}
+    return {"jobs":[]}
 
 @app.route("/api/job/<int:id>")
 def get_job_by_id(id):
@@ -90,6 +93,24 @@ def get_job_by_id(id):
 def post_acceptJob(jobid):
     db_tools.basic_query("UPDATE job SET currentState = 1, idUtilisateurAccepter = ? WHERE idJob=?", 
         (session["user"].id, jobid,), one_row=True, commit=True)
+    return jsonify({"success": True})
+    
+@app.route("/api/cancelJob/<int:jobid>", methods=["POST"])
+def post_cancelJob(jobid):
+    db_tools.basic_query("UPDATE job SET currentState = 0, idUtilisateurAccepter = ? WHERE idJob=? and idUtilisateurAccepter = ? ", 
+        (-1, jobid, session["user"].id), one_row=True, commit=True)
+    return jsonify({"success": True})
+
+@app.route("/api/confirmJob/<int:jobid>", methods=["POST"])
+def post_confirmJob(jobid):
+    db_tools.basic_query("UPDATE job SET currentState = 3 WHERE idJob=? and idUtilisateurPoster = ? ", 
+        (jobid, session["user"].id), one_row=True, commit=True)
+    return jsonify({"success": True})
+
+@app.route("/api/finishJob/<int:jobid>", methods=["POST"])
+def post_finishJob(jobid):
+    db_tools.basic_query("UPDATE job SET currentState = 2 WHERE idJob=? and idUtilisateurAccepter = ? ", 
+        (jobid, session["user"].id), one_row=True, commit=True)
     return jsonify({"success": True})
 
 

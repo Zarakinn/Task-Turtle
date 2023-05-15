@@ -14,9 +14,7 @@ function JobDetail(props) {
 
     const handleAccept = (event) => {
         event.preventDefault();
-        console.log(job);
-        console.log(id);
-
+       
         let route = '/api/acceptJob/' + id.toString();
         fetch(route, {
             method: 'POST',

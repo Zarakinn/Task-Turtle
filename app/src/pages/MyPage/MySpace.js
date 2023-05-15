@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import JobLinePosted from './JobLinePosted';
+import JobLineAccepted from './JobLineAccepted';
 
 
 function MySpace(props) {
@@ -38,14 +40,7 @@ function MySpace(props) {
                     <tbody>
                         {jobPosted === [] ? null :
                             jobPosted.map(job => (
-                                <tr key={job.id}>
-                                    <td>{job.title}</td>
-                                    <td>{job.textDescription}</td>
-                                    <td>{job.tags}</td>
-                                    <td>{job.price}</td>
-                                    <td>{job.locality}</td>
-                                    <td>{job.currentState}</td>
-                                </tr>
+                                <JobLinePosted user={props.user} job={job}/>
                             ))
                         }
                     </tbody>
@@ -67,14 +62,7 @@ function MySpace(props) {
                     <tbody>
                         {jobAccepted === [] ? null :
                             jobAccepted.map(job => (
-                                <tr key={job.id}>
-                                    <td>{job.title}</td>
-                                    <td>{job.textDescription}</td>
-                                    <td>{job.tags}</td>
-                                    <td>{job.price}</td>
-                                    <td>{job.locality}</td>
-                                    <td>{job.currentState}</td>
-                                </tr>
+                                <JobLineAccepted user={props.user} job={job}/>
                             ))
                         }
                     </tbody>

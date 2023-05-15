@@ -10,7 +10,7 @@ import Browse from './pages/Browse';
 import Signup from "./pages/login/Signup";
 import CreateJob from "./pages/job/CreateJob";
 import JobDetail from './pages/job/JobDetail';
-import MySpace from './pages/MySpace';
+import MySpace from './pages/MyPage/MySpace';
 
 
 export default function App() {
